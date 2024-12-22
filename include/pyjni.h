@@ -1,0 +1,1 @@
+void *WebView_AndroidGetJNIEnv();
