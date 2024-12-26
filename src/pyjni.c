@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <jni.h>
+#include "android/log.h"
 
 #define LOG_TAG "Python_android"
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -12,6 +13,12 @@ static jmethodID mFindClassMethod; // Method ID for ClassLoader.loadClass
 
 JNIEnv* Android_JNI_GetEnv(void);
 static void Android_JNI_ThreadDestroyed(void*);
+
+int Android_JNI_SetupThread(void)
+{
+    Android_JNI_GetEnv();
+    return 1;
+}
 
 /* Library init */
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
@@ -107,12 +114,6 @@ static void Android_JNI_ThreadDestroyed(void* value)
         (*mJavaVM)->DetachCurrentThread(mJavaVM);
         pthread_setspecific(mThreadKey, NULL);
     }
-}
-
-int Android_JNI_SetupThread(void)
-{
-    Android_JNI_GetEnv();
-    return 1;
 }
 
 jclass WebView_FindClass(const char* className)
