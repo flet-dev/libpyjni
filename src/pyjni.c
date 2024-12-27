@@ -116,7 +116,7 @@ static void Android_JNI_ThreadDestroyed(void* value)
     }
 }
 
-jclass WebView_FindClass(const char* className)
+jclass PyJni_FindClass(const char* className)
 {
     JNIEnv* env = Android_JNI_GetEnv();
     if (!env || !mClassLoader || !mFindClassMethod) {
@@ -142,7 +142,7 @@ jclass WebView_FindClass(const char* className)
     return clazz;
 }
 
-void* WebView_AndroidGetJNIEnv()
+void* PyJni_AndroidGetJNIEnv()
 {
     return Android_JNI_GetEnv();
 }
